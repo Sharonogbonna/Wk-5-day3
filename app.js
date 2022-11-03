@@ -114,6 +114,13 @@ class HumanShip{
                     if(alien.hull <= 0){
                         console.log(`Congratulations you killed ${alien.name}`)
                         alienShipFactory.alienShipFleet.shift()
+                        if(alienShipFactory.alienShipFleet.length === 0){
+                            console.log('YOU WON!!')
+                        }else{
+                            ///give player the option to attack the next alien
+                            //based on their response that is how you move
+                            //options: alert, model, user input
+                        }
                     }else{
                        alien.attack(this) 
                     }
@@ -134,13 +141,11 @@ let player = new HumanShip('USS HelloWorld')
 let alienShipFactory = new ShipFactory()
 alienShipFactory.makeAlienShip('Enemy One')
 alienShipFactory.makeAlienShip('Enemy Two')
-console.log(alienShipFactory.alienShipFleet)
+//console.log(alienShipFactory.alienShipFleet)
 //alienShipFactory.alienShipFleet[0].attack(player)
 //testing auto attack
 alienShipFactory.alienShipFleet[0].hull = 10
 player.attack(alienShipFactory.alienShipFleet[0])
-
-
 
 
 // Simulate a battle between your ship and a single alien ship first.
@@ -152,6 +157,7 @@ player.attack(alienShipFactory.alienShipFleet[0])
 // Make it so the method reduces the target's hull by the firepower of the USS Assembly.
 
 // Make a game object
+const game = {}
 
 // Make a method in the game object that will run a 'check win' for the health of the alien(s) and/or the USS Assembly. If the hull is 0 or less, display a message that the ship went kabloo-ey.
 
