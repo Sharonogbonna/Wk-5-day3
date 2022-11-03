@@ -110,8 +110,10 @@ class HumanShip{
                     //remove alien from array when they are attacked
                     if(alien.hull <= 0){
                         console.log(`Congratulations you killed ${alien.name}`)
-                        alienShipFactory.alienShipFleet.shift()}
-                    
+                        alienShipFactory.alienShipFleet.shift()
+                    }else{
+                       alien.attack(this) 
+                    }
                 }else{
                     console.log('You missed!')
                 }
@@ -127,8 +129,10 @@ let alienShipFactory = new ShipFactory()
 alienShipFactory.makeAlienShip('Enemy One')
 alienShipFactory.makeAlienShip('Enemy Two')
 console.log(alienShipFactory.alienShipFleet)
-alienShipFactory.alienShipFleet[0].attack(player)
-//player.attack(alienShipFactory.alienShipFleet[0])
+//alienShipFactory.alienShipFleet[0].attack(player)
+//testing auto enemy attack
+alienShipFactory.alienShipFleet[0].hull = 10
+player.attack(alienShipFactory.alienShipFleet[0])
 
 
 
