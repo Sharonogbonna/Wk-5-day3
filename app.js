@@ -59,6 +59,24 @@ class AlienShip{
     randomAccuracy() {
         return (Math.floor(Math.random() * 3) + 6) / 10;
     }
+    attack(human){
+        //if this ship is still alive then attack
+        if(this.hull > 0){
+            console.log(`${this.name} has ${this.hull} life remaining`)
+            //since it is not 100% accuracy, it will miss about 70-80% of the time
+            if(Math.floor(Math.random() * 9)/10 <= this.accuracy){
+                    human.hull -= this.firepower
+                    console.log(`You've been hit! You have ${human.hull} life remaining.`)
+                    //remove alien from array when they are attacked
+                    // if(human.hull <= 0){
+                    //     console.log(`Congratulations you killed ${alien.name}`)
+                    //     alienShipFactory.alienShipFleet.shift()}
+                    
+                }else{
+                    console.log(`${this.name} missed!`)
+                }
+        }
+    }
 };
 
 //Make ship factory
@@ -84,7 +102,7 @@ class HumanShip{
     attack(alien){
         //if this ship is still alive then attack
         if(this.hull > 0){
-            console.log(`I have this much ${this.hull} life remaining`)
+            console.log(`I have ${this.hull} life remaining`)
             //since it is not 100% accuracy, it will miss about 70-80% of the time
             if(Math.floor(Math.random() * 9)/10 <= this.accuracy){
                     alien.hull -= this.firepower
@@ -109,8 +127,11 @@ let alienShipFactory = new ShipFactory()
 alienShipFactory.makeAlienShip('Enemy One')
 alienShipFactory.makeAlienShip('Enemy Two')
 console.log(alienShipFactory.alienShipFleet)
-player.attack(alienShipFactory.alienShipFleet[0])
-console.log(alienShipFactory.alienShipFleet)
+alienShipFactory.alienShipFleet[0].attack(player)
+//player.attack(alienShipFactory.alienShipFleet[0])
+
+
+
 
 // Simulate a battle between your ship and a single alien ship first.
 
