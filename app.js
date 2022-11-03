@@ -83,13 +83,16 @@ class HumanShip{
 // Make a method for the USS Assembly that will attack a given target. The target can be an input to the method.
     attack(alien){
         //if this ship is still alive then attack
-        console.log('this works')
         if(this.hull > 0){
-            console.log(`I have this much ${this.hull} hull remaining`)
+            console.log(`I have this much ${this.hull} life remaining`)
             //since it is not 100% accuracy, it will miss about 70-80% of the time
             if(Math.floor(Math.random() * 9)/10 <= this.accuracy){
                     alien.hull -= this.firepower
-                    console.log(`You hit them! Alien has ${alien.hull} remaining.`)
+                    console.log(`You hit them! ${alien.name} has ${alien.hull} life remaining.`)
+                    //remove alien from array when they are attacked
+                    if(alien.hull <= 0){
+                        console.log(`Congratulations you killed ${alien.name}`)
+                        alienShipFactory.alienShipFleet.shift()}
                     
                 }else{
                     console.log('You missed!')
@@ -104,7 +107,10 @@ class HumanShip{
 let player = new HumanShip('USS HelloWorld')
 let alienShipFactory = new ShipFactory()
 alienShipFactory.makeAlienShip('Enemy One')
+alienShipFactory.makeAlienShip('Enemy Two')
+console.log(alienShipFactory.alienShipFleet)
 player.attack(alienShipFactory.alienShipFleet[0])
+console.log(alienShipFactory.alienShipFleet)
 
 // Simulate a battle between your ship and a single alien ship first.
 
