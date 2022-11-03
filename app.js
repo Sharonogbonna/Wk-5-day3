@@ -42,18 +42,6 @@ each ship needs an attack method that is bound to maybe a click function
 good randomizer - math.randomNumber(min, max) { return math.random()  (* max-min) + min*/
 //#endregion
 
-
-// Make the Human Ship sub-class.
-class HumanShip{
-    constructor(name){
-        this.name = name;
-        this.hull = 20;
-        this.firepower = 5;
-        this.accuracy = .7;
-    }
-}
-// let USS = new HumanShip('USS')
-// console.log(USS)
 // Make an Alien Ship sub-class.
 class AlienShip{
     constructor(name){
@@ -69,32 +57,54 @@ class AlienShip{
         return Math.floor(Math.random() * (max - min) + min);
     }
     randomAccuracy() {
-        return (Math.floor(Math.random() * 3) + 6) / 10
+        return (Math.floor(Math.random() * 3) + 6) / 10;
     }
-}
-// let alien1 = new AlienShip('Billy Bob')
-// let alien2 = new AlienShip('Billy Bim')
-// let alien3 = new AlienShip('Bobby bim')
-// console.log(alien1)
-// console.log(alien2)
-// console.log(alien3)
+};
+
 //Make ship factory
 class ShipFactory{
-    constructor(factoryType){
-       this.factoryType = factoryType
+    constructor(){
         this.alienShipFleet = [];
     };
     makeAlienShip(name){
-        const newAlienShip = new AlienShip(name)
-        this.alienShipFleet.push(newAlienShip)
+        const newAlienShip = new AlienShip(name);
+        this.alienShipFleet.push(newAlienShip);
         }
     };
 ;
- let alienShipFactory = new ShipFactory('Alien')
-alienShipFactory.makeAlienShip('Martin the Martian')
-//console.log(alienShipFactory)
-//console.log(alienShipFactory.alienShipFleet)
+// Make the Human Ship sub-class.
+class HumanShip{
+    constructor(name){
+        this.name = name;
+        this.hull = 20;
+        this.firepower = 5;
+        this.accuracy = .7;
+    }
+// Make a method for the USS Assembly that will attack a given target. The target can be an input to the method.
+    attack(alien){
+        //if this ship is still alive then attack
+        console.log('this works')
+        if(this.hull > 0){
+            console.log(`I have this much ${this.hull} hull remaining`)
+            //since it is not 100% accuracy, it will miss about 70-80% of the time
+            if(Math.floor(Math.random() * 9)/10 <= this.accuracy){
+                    alien.hull -= this.firepower
+                    console.log(`You hit them! Alien has ${alien.hull} remaining.`)
+                    
+                }else{
+                    console.log('You missed!')
+                }
+        }
+    }
+}
+
+
+
 // Make an instance of each class
+let player = new HumanShip('USS HelloWorld')
+let alienShipFactory = new ShipFactory()
+alienShipFactory.makeAlienShip('Enemy One')
+player.attack(alienShipFactory.alienShipFleet[0])
 
 // Simulate a battle between your ship and a single alien ship first.
 
