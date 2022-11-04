@@ -166,7 +166,7 @@ alienShipFactory.makeAlienShip('Enemy Six')
 //alienShipFactory.alienShipFleet[0].attack(player)
 //testing auto attack
 //alienShipFactory.alienShipFleet[0].hull = 10
-player.attack(alienShipFactory.alienShipFleet[0])
+//player.attack(alienShipFactory.alienShipFleet[0])
 
 
 // Simulate a battle between your ship and a single alien ship first.
@@ -205,7 +205,7 @@ const game = {}
 // Move on to the bonuses.*/
 
 // const modal = document.querySelector(".modal");
-// const trigger = document.querySelector(".trigger");
+const trigger = document.querySelector(".trigger");
 // const closeButton = document.querySelector(".close-button");
 
 // function toggleModal() {
@@ -217,8 +217,10 @@ const game = {}
 //         toggleModal();
 //     }
 // }
-
-// trigger.addEventListener("click", toggleModal);
+function initiateGame() {
+    player.attack(alienShipFactory.alienShipFleet[0]);
+}
+trigger.addEventListener("click", initiateGame);
 // closeButton.addEventListener("click", toggleModal);
 // window.addEventListener("click", windowOnClick);
 function myFunction() {
