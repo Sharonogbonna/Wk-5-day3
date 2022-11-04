@@ -42,6 +42,7 @@ each ship needs an attack method that is bound to maybe a click function
 good randomizer - math.randomNumber(min, max) { return math.random()  (* max-min) + min*/
 //#endregion
 
+
 // Make an Alien Ship sub-class.
 class AlienShip{
     constructor(name){
@@ -102,6 +103,9 @@ class HumanShip{
         this.accuracy = .7;
     }
 // Make a method for the USS Assembly that will attack a given target. The target can be an input to the method.
+    retreat(){
+        console.log('Game Over, You lost!')
+    }
     attack(alien){
         //if this ship is still alive then attack
         if(this.hull > 0){
@@ -119,7 +123,19 @@ class HumanShip{
                         }else{
                             ///give player the option to attack the next alien
                             //based on their response that is how you move
-                            //options: alert, model, user input
+                            //options: alert, modal, user input
+                            //function myFunction() {
+                            console.log(`You have ${alienShipFactory.alienShipFleet.length} enemies remaining`)    
+                            //how to stop from immediately loading???
+                            if(confirm("Do you want to attack the next alien? Press OK to ATTACK or cancel to RETREAT")){
+                                    console.log('You chose to attack again')
+                                    this.attack(alienShipFactory.alienShipFleet[0])
+                                }else{
+                                    console.log('Game Over you lost')
+                                }
+                             // }
+                            
+                            
                         }
                     }else{
                        alien.attack(this) 
@@ -141,16 +157,20 @@ let player = new HumanShip('USS HelloWorld')
 let alienShipFactory = new ShipFactory()
 alienShipFactory.makeAlienShip('Enemy One')
 alienShipFactory.makeAlienShip('Enemy Two')
+alienShipFactory.makeAlienShip('Enemy Three')
+alienShipFactory.makeAlienShip('Enemy Four')
+alienShipFactory.makeAlienShip('Enemy Five')
+alienShipFactory.makeAlienShip('Enemy Six')
+
 //console.log(alienShipFactory.alienShipFleet)
 //alienShipFactory.alienShipFleet[0].attack(player)
 //testing auto attack
-alienShipFactory.alienShipFleet[0].hull = 10
+//alienShipFactory.alienShipFleet[0].hull = 10
 player.attack(alienShipFactory.alienShipFleet[0])
 
 
 // Simulate a battle between your ship and a single alien ship first.
 
-// Make a method for the USS Assembly that will attack a given target. The target can be an input to the method.
 
 // Run the method and pass it the alien ship.
 
@@ -183,3 +203,24 @@ const game = {}
 // Move functions into the game object.
 
 // Move on to the bonuses.*/
+
+// const modal = document.querySelector(".modal");
+// const trigger = document.querySelector(".trigger");
+// const closeButton = document.querySelector(".close-button");
+
+// function toggleModal() {
+//     modal.classList.toggle("show-modal");
+// }
+
+// function windowOnClick(event) {
+//     if (event.target === modal) {
+//         toggleModal();
+//     }
+// }
+
+// trigger.addEventListener("click", toggleModal);
+// closeButton.addEventListener("click", toggleModal);
+// window.addEventListener("click", windowOnClick);
+function myFunction() {
+    confirm("Press a button!");
+  }
