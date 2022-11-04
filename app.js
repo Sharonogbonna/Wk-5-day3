@@ -109,7 +109,7 @@ class HumanShip{
     attack(alien){
         //if this ship is still alive then attack
         if(this.hull > 0){
-            console.log(`I am attacking and have ${this.hull} life remaining`)
+            console.log(`You are attacking and have ${this.hull} life remaining`)
             //since it is not 100% accuracy, it will miss about 70-80% of the time
             if(Math.floor(Math.random() * 9)/10 <= this.accuracy){
                     alien.hull -= this.firepower
@@ -126,12 +126,12 @@ class HumanShip{
                             //options: alert, modal, user input
                             //function myFunction() {
                             console.log(`You have ${alienShipFactory.alienShipFleet.length} enemies remaining`)    
-                            //how to stop from immediately loading???
-                            if(confirm("Do you want to attack the next alien? Press OK to ATTACK or cancel to RETREAT")){
+                            //gives player an option to retreat or keep fighting
+                            if(confirm(`You have ${this.hull} hull. Do you want to attack the next alien? Press OK to ATTACK or cancel to RETREAT`)){
                                     console.log('You chose to attack again')
                                     this.attack(alienShipFactory.alienShipFleet[0])
                                 }else{
-                                    console.log('Game Over you lost')
+                                    return this.retreat()
                                 }
                              // }
                             
@@ -177,13 +177,23 @@ alienShipFactory.makeAlienShip('Enemy Six')
 // Make it so the method reduces the target's hull by the firepower of the USS Assembly.
 
 // Make a game object
-const game = {}
-
+const game = {
 // Make a method in the game object that will run a 'check win' for the health of the alien(s) and/or the USS Assembly. If the hull is 0 or less, display a message that the ship went kabloo-ey.
+  alienStatusUpdate() {
+    console.log(`There are ${alienShipFactory.alienShipFleet.length} enemies remaining`)
+    let alienStatusArr = []
+    for(let i = 0 ; i < alienShipFactory.alienShipFleet.length; i++){
+        if(alienShipFactory.alienShipFleet[i].hull == 0){
+            alienStatusArr.push(`${alienShipFactory.alienShipFleet[i].name} went kabloo-ey`);
+        }else{
+         alienStatusArr.push(`${alienShipFactory.alienShipFleet[i].name} has ${alienShipFactory.alienShipFleet[i].hull} hull remaining`)
+        }
+    }return alienStatusArr
+  }  
+}
+console.log(game.alienStatusUpdate())
 
-// Make it so the alien will only be hit if a Math.random call is below the accuracy threshold.
 
-// Make a method for the alien ship to attack a target.
 
 // At a status console log for the end of the round.
 
@@ -223,6 +233,8 @@ function initiateGame() {
 trigger.addEventListener("click", initiateGame);
 // closeButton.addEventListener("click", toggleModal);
 // window.addEventListener("click", windowOnClick);
-function myFunction() {
-    confirm("Press a button!");
-  }
+// function myFunction() {
+//     confirm("Press a button!");
+//   }
+
+/////Attempting to 
