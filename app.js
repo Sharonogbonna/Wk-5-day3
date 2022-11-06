@@ -1,38 +1,28 @@
 
+/////Declaring HTML stuff
 let playerStats = document.querySelector('.playerStats');
 let enemyStats = document.querySelector('.enemyStats');
 let nameBoxPlayer = document.querySelector('.nameBox-player')
 let nameBoxEnemy = document.querySelector('.nameBox-enemy')
+const trigger = document.querySelector(".trigger");
+
+////declare stuff for the game
+let numberOfEnemyShips = Math.floor(Math.random()*10)
+console.log(numberOfEnemyShips)
 const game = {
-    // Make a method in the game object that will run a 'check win' for the health of the alien(s) and/or the USS Assembly. If the hull is 0 or less, display a message that the ship went kabloo-ey.
-    alienStatusUpdate() {
-      console.log(
-        `There are ${alienShipFactory.alienShipFleet.length} enemies remaining`
-      );
-      let alienStatusArr = [];
-      for (let i = 0; i < alienShipFactory.alienShipFleet.length; i++) {
-        if (alienShipFactory.alienShipFleet[i].hull == 0) {
-          alienStatusArr.push(
-            `${alienShipFactory.alienShipFleet[i].name} went kabloo-ey`
-          );
-        } else {
-          alienStatusArr.push(
-            `${alienShipFactory.alienShipFleet[i].name} has ${alienShipFactory.alienShipFleet[i].hull} hull remaining`
-          );
+    createEnemyShips(num){
+        for(let i = 0; i <= num; i++){
+            alienShipFactory.makeAlienShip(`Enemy ${i}`)
         }
-      }
-      return alienStatusArr;
     },
-    editStats(stats, ship) {
-        nameBoxPlayer.innerText = `${ship.name}`
-        if(ship == alienShipFactory.alienShipFleet[0]){
-         nameBoxEnemy.innerText = `${ship.name}`
-        }
-         return stats.innerText = `Hull: ${ship.hull}
-         Fire Power: ${ship.firepower}
-         Accuracy: ${ship.accuracy *100}%`
-     }
+    // Make a method in the game object that will run a 'check win' for the health of the alien(s) and/or the USS Assembly. If the hull is 0 or less, display a message that the ship went kabloo-ey.
+    initiateGame() {
+    
+        player.updateStats(playerStats)
+        player.attack(alienShipFactory.alienShipFleet[0]);
+      }
   };
+
 // Make an Alien Ship sub-class.
 class AlienShip {
   constructor(name) {
@@ -49,6 +39,12 @@ class AlienShip {
   }
   randomAccuracy() {
     return (Math.floor(Math.random() * 3) + 6) / 10;
+  }
+  updateStats(stats) {
+    nameBoxEnemy.innerText = `${this.name}`
+    stats.innerText = `Hull: ${this.hull}
+    Fire Power: ${this.firepower}
+    Accuracy: ${this.accuracy *100}%`
   }
   attack(human) {
     //if this ship is still alive then attack
@@ -83,7 +79,27 @@ class ShipFactory {
     const newAlienShip = new AlienShip(name);
     this.alienShipFleet.push(newAlienShip);
   }
+  alienStatusUpdate() {
+    console.log(`There were ${alienShipFactory.alienShipFleet.length} enemy ships deployed`
+    );
+    let alienStatusArr = [];
+    for (let i = 0; i < alienShipFactory.alienShipFleet.length; i++) {
+      if (alienShipFactory.alienShipFleet[i].hull <= 0) {
+        alienStatusArr.push(
+          `${alienShipFactory.alienShipFleet[i].name} went kabloo-ey`
+        );
+      } else {
+        alienStatusArr.push(
+          `${alienShipFactory.alienShipFleet[i].name} has ${alienShipFactory.alienShipFleet[i].hull} hull`
+        );
+      }
+    }
+    return alienStatusArr;
+  }
 }
+let alienShipFactory = new ShipFactory();
+game.createEnemyShips(numberOfEnemyShips)
+
 // Make the Human Ship sub-class.
 class HumanShip {
   constructor(name) {
@@ -92,14 +108,19 @@ class HumanShip {
     this.firepower = 5;
     this.accuracy = 0.7;
   }
-  // Make a method for the USS Assembly that will attack a given target. The target can be an input to the method.
+  updateStats(stats) {
+    nameBoxPlayer.innerText = `${this.name}`
+    stats.innerText = `Hull: ${this.hull}
+    Fire Power: ${this.firepower}
+    Accuracy: ${this.accuracy *100}%`
+  }
   retreat() {
     console.log("Game Over, You lost!");
   }
   attack(alien) {
     //if this ship is still alive then attack
     if (this.hull > 0) {
-      console.log(`You are attacking and have ${this.hull} life remaining`);
+      console.log(`You are attacking ${alien.name} and have ${this.hull} life remaining`);
       //since it is not 100% accuracy, it will miss about 70-80% of the time
       if (Math.floor(Math.random() * 9) / 10 <= this.accuracy) {
         alien.hull -= this.firepower;
@@ -109,6 +130,7 @@ class HumanShip {
         //remove alien from array when they are attacked
         if (alien.hull <= 0) {
           console.log(`Congratulations you killed ${alien.name}`);
+          console.log(alienShipFactory.alienStatusUpdate())
           alienShipFactory.alienShipFleet.shift();
           if (alienShipFactory.alienShipFleet.length === 0) {
             console.log("YOU WON!!");
@@ -146,23 +168,8 @@ class HumanShip {
     }
   }
 }
-
-// Make an instance of each class
 let player = new HumanShip("USS HelloWorld");
-let alienShipFactory = new ShipFactory();
-alienShipFactory.makeAlienShip("Enemy One");
-alienShipFactory.makeAlienShip("Enemy Two");
-alienShipFactory.makeAlienShip("Enemy Three");
-alienShipFactory.makeAlienShip("Enemy Four");
-alienShipFactory.makeAlienShip("Enemy Five");
-alienShipFactory.makeAlienShip("Enemy Six");
-
-//console.log(alienShipFactory.alienShipFleet)
-//alienShipFactory.alienShipFleet[0].attack(player)
-//testing auto attack
-//alienShipFactory.alienShipFleet[0].hull = 10
-//player.attack(alienShipFactory.alienShipFleet[0])
-
+player.updateStats(playerStats)
 // Simulate a battle between your ship and a single alien ship first.
 
 // Run the method and pass it the alien ship.
@@ -191,9 +198,4 @@ alienShipFactory.makeAlienShip("Enemy Six");
 
 // Move on to the bonuses.*/
 
-const trigger = document.querySelector(".trigger");
-
-function initiateGame() {
-  player.attack(alienShipFactory.alienShipFleet[0]);
-}
-trigger.addEventListener("click", initiateGame);
+trigger.addEventListener("click", game.initiateGame);
