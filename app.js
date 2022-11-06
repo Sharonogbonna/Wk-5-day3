@@ -1,15 +1,38 @@
-//#region Pseudocode
-/* 
-FOR MAKING SHIPS
-Make class for human Ship
-make class for alien ship
-make Factory for ships
-for each class have a function that determines the shot of accuracy 
-make a function for everytime you get hit your hull decreases
-each ship needs an attack method that is bound to maybe a click function
-good randomizer - math.randomNumber(min, max) { return math.random()  (* max-min) + min*/
-//#endregion
 
+let playerStats = document.querySelector('.playerStats');
+let enemyStats = document.querySelector('.enemyStats');
+let nameBoxPlayer = document.querySelector('.nameBox-player')
+let nameBoxEnemy = document.querySelector('.nameBox-enemy')
+const game = {
+    // Make a method in the game object that will run a 'check win' for the health of the alien(s) and/or the USS Assembly. If the hull is 0 or less, display a message that the ship went kabloo-ey.
+    alienStatusUpdate() {
+      console.log(
+        `There are ${alienShipFactory.alienShipFleet.length} enemies remaining`
+      );
+      let alienStatusArr = [];
+      for (let i = 0; i < alienShipFactory.alienShipFleet.length; i++) {
+        if (alienShipFactory.alienShipFleet[i].hull == 0) {
+          alienStatusArr.push(
+            `${alienShipFactory.alienShipFleet[i].name} went kabloo-ey`
+          );
+        } else {
+          alienStatusArr.push(
+            `${alienShipFactory.alienShipFleet[i].name} has ${alienShipFactory.alienShipFleet[i].hull} hull remaining`
+          );
+        }
+      }
+      return alienStatusArr;
+    },
+    editStats(stats, ship) {
+        nameBoxPlayer.innerText = `${ship.name}`
+        if(ship == alienShipFactory.alienShipFleet[0]){
+         nameBoxEnemy.innerText = `${ship.name}`
+        }
+         return stats.innerText = `Hull: ${ship.hull}
+         Fire Power: ${ship.firepower}
+         Accuracy: ${ship.accuracy *100}%`
+     }
+  };
 // Make an Alien Ship sub-class.
 class AlienShip {
   constructor(name) {
@@ -147,28 +170,7 @@ alienShipFactory.makeAlienShip("Enemy Six");
 // Make it so the method reduces the target's hull by the firepower of the USS Assembly.
 
 // Make a game object
-const game = {
-  // Make a method in the game object that will run a 'check win' for the health of the alien(s) and/or the USS Assembly. If the hull is 0 or less, display a message that the ship went kabloo-ey.
-  alienStatusUpdate() {
-    console.log(
-      `There are ${alienShipFactory.alienShipFleet.length} enemies remaining`
-    );
-    let alienStatusArr = [];
-    for (let i = 0; i < alienShipFactory.alienShipFleet.length; i++) {
-      if (alienShipFactory.alienShipFleet[i].hull == 0) {
-        alienStatusArr.push(
-          `${alienShipFactory.alienShipFleet[i].name} went kabloo-ey`
-        );
-      } else {
-        alienStatusArr.push(
-          `${alienShipFactory.alienShipFleet[i].name} has ${alienShipFactory.alienShipFleet[i].hull} hull remaining`
-        );
-      }
-    }
-    return alienStatusArr;
-  },
-};
-console.log(game.alienStatusUpdate());
+
 
 // At a status console log for the end of the round.
 
@@ -189,43 +191,9 @@ console.log(game.alienStatusUpdate());
 
 // Move on to the bonuses.*/
 
-// const modal = document.querySelector(".modal");
 const trigger = document.querySelector(".trigger");
-// const closeButton = document.querySelector(".close-button");
 
-// function toggleModal() {
-//     modal.classList.toggle("show-modal");
-// }
-
-// function windowOnClick(event) {
-//     if (event.target === modal) {
-//         toggleModal();
-//     }
-// }
 function initiateGame() {
   player.attack(alienShipFactory.alienShipFleet[0]);
 }
 trigger.addEventListener("click", initiateGame);
-// closeButton.addEventListener("click", toggleModal);
-// window.addEventListener("click", windowOnClick);
-// function myFunction() {
-//     confirm("Press a button!");
-//   }
-
-/////Attempting to connect things to the DOM
-let playerStats = document.querySelector('.playerStats');
-let enemyStats = document.querySelector('.enemyStats');
-let nameBoxPlayer = document.querySelector('.nameBox-player')
-let nameBoxEnemy = document.querySelector('.nameBox-enemy')
-const editStats = (stats, ship) => {
-   if(ship == alienShipFactory.alienShipFleet[0]){
-    nameBoxEnemy.innerText = `${ship.name}`
-   }else{
-    nameBoxPlayer.innerText = `${ship.name}`
-   }
-    return stats.innerText = `Hull: ${ship.hull}
-    Fire Power: ${ship.firepower}
-    Accuracy: ${ship.accuracy *100}%`
-}
-editStats(playerStats, player)
-editStats(enemyStats, alienShipFactory.alienShipFleet[0])

@@ -52,8 +52,8 @@ align-items: center;
     align-items: center;
     font-size: 2em;
     box-shadow: 0px 0px 20px 10px white;
-
 }
+
 .playerImage{
     border: 1px solid black;
     width: 30vw;
@@ -63,10 +63,8 @@ align-items: center;
     background-position: center;
     background-repeat: no-repeat;
     box-shadow: 0px 0px 20px 10px white;
-    
-
-    
 }
+
 .playerStats{
     display: flex;
     justify-content: center;
@@ -104,6 +102,16 @@ align-items: center;
     text-align: center;
     font-family: 'Share Tech Mono', monospace;
     font-size: 1.5em;
+    box-shadow: 0px 0px 20px 10px white;
+}
+#start-button{
+    border: 3px solid red;
+    margin: auto;
+    width: 25vw;
+    height: 10vh;
+    text-align: center;
+    color: white;
+    background-color: black;
     box-shadow: 0px 0px 20px 10px white;
 
 }
