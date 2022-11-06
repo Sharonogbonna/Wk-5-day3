@@ -8,19 +8,20 @@ const trigger = document.querySelector(".trigger");
 
 ////declare stuff for the game
 let numberOfEnemyShips = Math.floor(Math.random()*10)
-console.log(numberOfEnemyShips)
+let alienStatusArr = [];
 const game = {
     createEnemyShips(num){
-        for(let i = 0; i <= num; i++){
+        for(let i = 1; i <= num; i++){
             alienShipFactory.makeAlienShip(`Enemy ${i}`)
         }
+        console.log( `The enemy deployed ${num} ships!`)
     },
+
     // Make a method in the game object that will run a 'check win' for the health of the alien(s) and/or the USS Assembly. If the hull is 0 or less, display a message that the ship went kabloo-ey.
     initiateGame() {
-    
-        player.updateStats(playerStats)
         player.attack(alienShipFactory.alienShipFleet[0]);
-      }
+      },
+    
   };
 
 // Make an Alien Ship sub-class.
@@ -79,26 +80,26 @@ class ShipFactory {
     const newAlienShip = new AlienShip(name);
     this.alienShipFleet.push(newAlienShip);
   }
-  alienStatusUpdate() {
-    console.log(`There were ${alienShipFactory.alienShipFleet.length} enemy ships deployed`
+  createAlienStatusUpdate() {
+    console.log(`There were ${numberOfEnemyShips} enemy ships deployed`
     );
-    let alienStatusArr = [];
-    for (let i = 0; i < alienShipFactory.alienShipFleet.length; i++) {
+    
+    for (let i = 0; i < numberOfEnemyShips ; i++) {
       if (alienShipFactory.alienShipFleet[i].hull <= 0) {
-        alienStatusArr.push(
-          `${alienShipFactory.alienShipFleet[i].name} went kabloo-ey`
-        );
+        alienStatusArr.push(`${alienShipFactory.alienShipFleet[i].name} went kabloo-ey`);
       } else {
-        alienStatusArr.push(
-          `${alienShipFactory.alienShipFleet[i].name} has ${alienShipFactory.alienShipFleet[i].hull} hull`
-        );
+        alienStatusArr.push(`${alienShipFactory.alienShipFleet[i].name} has ${alienShipFactory.alienShipFleet[i].hull} hull`);
       }
     }
     return alienStatusArr;
   }
+  getAlienStatusUpdate(){
+    return alienStatusArr
+}
 }
 let alienShipFactory = new ShipFactory();
 game.createEnemyShips(numberOfEnemyShips)
+alienShipFactory.createAlienStatusUpdate()
 
 // Make the Human Ship sub-class.
 class HumanShip {
@@ -130,7 +131,7 @@ class HumanShip {
         //remove alien from array when they are attacked
         if (alien.hull <= 0) {
           console.log(`Congratulations you killed ${alien.name}`);
-          console.log(alienShipFactory.alienStatusUpdate())
+          console.log(alienShipFactory.getAlienStatusUpdate())
           alienShipFactory.alienShipFleet.shift();
           if (alienShipFactory.alienShipFleet.length === 0) {
             console.log("YOU WON!!");
